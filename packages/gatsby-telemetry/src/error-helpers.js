@@ -4,8 +4,6 @@ const { sep } = require(`path`)
 const cleanPaths = (str, separator = sep) => {
   const stack = process.cwd().split(separator)
 
-  // windows still has the 'C:' but unix has '' but C:
-  // is not a big deal so we'll let it slip
   while (stack.length > 1) {
     const currentPath = stack.join(separator)
     const currentRegex = new RegExp(
@@ -13,6 +11,13 @@ const cleanPaths = (str, separator = sep) => {
       `g`
     )
     str = str.replace(currentRegex, `$SNIP`)
+
+    const currentPath2 = stack.join(separator + separator)
+    const currentRegex2 = new RegExp(
+      currentPath2.replace(/[-[/{}()*+?.\\^$|]/g, `\\$&`),
+      `g`
+    )
+    str = str.replace(currentRegex2, `$SNIP`)
     stack.pop()
   }
   return str

@@ -51,8 +51,9 @@ describe(`Errors Helpers`, () => {
       expect(sanitizedErrorString).toEqual(
         expect.stringContaining(errormessage)
       )
+      console.log(`JARMO:`, sanitizedErrorString)
       expect(sanitizedErrorString).toEqual(
-        expect.not.stringContaining(process.cwd())
+        expect.not.stringContaining(process.cwd().replace(`\\`, `\\\\`))
       )
     })
 
